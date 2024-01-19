@@ -27,14 +27,14 @@
                         </span>
                         <!-- Mostrar pestañas específicas para el rol de administrador -->
                         @if (auth()->user()->isAdmin())
-                            <a class="font-bold uppercase text-white text-sm bg-green-500 p-2 rounded-lg hover:bg-green-600 hover:no-underline"
+                            {{-- <a class="font-bold uppercase text-white text-sm bg-green-500 p-2 rounded-lg hover:bg-green-600 hover:no-underline"
                                 href="{{ route('admin.index.appointment') }}">
                                 Citas Medicas
                             </a>
                             <a class="font-bold uppercase text-white bg-yellow-500 text-sm p-2 rounded-lg hover:bg-yellow-600"
                                 href="{{ route('admin.index.doctor') }}">
                                 Doctores
-                            </a>
+                            </a> --}}
                         @endif
                     </a>
                     <form method="POST" action="{{ route('logout') }}">
