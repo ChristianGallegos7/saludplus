@@ -33,10 +33,12 @@ class AdminMedicalAppointmentController extends Controller
      */
     public function store(Request $request)
     {
-        // Validar los datos del formulario
-        $request->validate([
-            // Puedes agregar reglas de validación según tus necesidades
-        ]);
+
+        // dd("guardando cita");
+        // // Validar los datos del formulario
+        // $request->validate([
+        //     // Puedes agregar reglas de validación según tus necesidades
+        // ]);
 
         // Crear una nueva cita médica
         MedicalAppointment::create([
@@ -45,8 +47,8 @@ class AdminMedicalAppointmentController extends Controller
             'status' => $request->status
         ]);
 
-        // Redirigir a la vista de citas médicas después de crear una cita
-        return redirect()->route('admin.citas');
+        // // Redirigir a la vista de citas médicas después de crear una cita
+        return redirect()->route('admin.appointments');
     }
 
     /**

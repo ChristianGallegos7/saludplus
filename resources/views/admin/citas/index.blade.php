@@ -10,15 +10,17 @@
     Volver
 </a>
     <div class="flex justify-between p-4">
-        <div class="w-3/4">
+        <div class="w-1/4">
             <!-- Lista de citas medicas -->
             <h2 class="text-2xl font-bold mb-4">Lista de Citas Médicas</h2>
             <!-- Aquí puedes iterar sobre tus citas y mostrarlas -->
-            {{-- @foreach ($citas as $cita)
-                <div class="bg-white p-4 mb-4 rounded shadow">
-                    <!-- Mostrar detalles de la cita -->
+            @foreach ($citas as $cita)
+                <div class="bg-white p-4 mb-4 rounded-lg shadow-lg hover:border-green-500">
+                    <p>{{ $cita->date_time }}</p>
+                    <p>{{ $cita->doctor_id }}</p>
+                    <p>{{ $cita->status }}</p>
                 </div>
-            @endforeach --}}
+            @endforeach
         </div>
         <div class="w-1/4 p-4 bg-gray-200">
             <!-- Botón para crear una nueva cita -->

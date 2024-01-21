@@ -27,7 +27,7 @@ Route::get('/panel-admin', [AdminController::class,'index'])->name('admin.dashbo
 // Rutas para las Citas Médicas (Administrador)
 Route::get('/admin/citas', [AdminMedicalAppointmentController::class, 'index'])->name('admin.appointments');
 Route::get('/admin/citas/crear', [AdminMedicalAppointmentController::class, 'create'])->name('admin.create.appointment');
-Route::post('/admin/citas/crear', [AdminMedicalAppointmentController::class, 'store']);
+Route::post('/admin/citas/crear', [AdminMedicalAppointmentController::class, 'store'])->name('admin.store.appointment');
 
 // Rutas para los Doctores (Administrador)
 Route::get('/admin/doctores', [DoctorController::class, 'index'])->name('admin.doctors');
