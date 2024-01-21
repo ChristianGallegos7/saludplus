@@ -36,10 +36,7 @@
                                 href="{{ route('admin.doctors') }}">
                                 Doctores
                             </a>
-                            <a class="font-bold uppercase text-white bg-yellow-500 text-sm p-2 rounded-lg hover:bg-yellow-600"
-                            href="{{ route('admin.dashboard') }}">
-                            Volver
-                        </a>
+                           
                         @endif
                     </a>
                     <form method="POST" action="{{ route('logout') }}">

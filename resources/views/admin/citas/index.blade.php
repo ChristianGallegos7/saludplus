@@ -5,6 +5,10 @@
 @endsection
 
 @section('contenido')
+<a class="font-bold uppercase text-white bg-yellow-500 text-sm p-2 rounded-lg hover:bg-yellow-600"
+    href="{{ route('admin.dashboard') }}">
+    Volver
+</a>
     <div class="flex justify-between p-4">
         <div class="w-3/4">
             <!-- Lista de citas medicas -->
@@ -19,7 +23,8 @@
         <div class="w-1/4 p-4 bg-gray-200">
             <!-- Botón para crear una nueva cita -->
             <h2 class="text-2xl font-bold mb-4">Crear Nueva Cita</h2>
-            <a href="{{ route('admin.create.appointment') }}" class="block w-full p-2 font-bold bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none text-center">
+            <a href="{{ route('admin.create.appointment') }}"
+                class="block w-full p-2 font-bold bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none text-center">
                 Crear Cita Médica
             </a>
         </div>
