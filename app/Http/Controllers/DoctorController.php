@@ -15,7 +15,7 @@ class DoctorController extends Controller
         // ...
 
         // Devolver la vista de lista de doctores
-        return view('admin.doctors.index');
+        return view('admin.doctores.index');
     }
 
     /**
@@ -24,7 +24,7 @@ class DoctorController extends Controller
     public function create()
     {
         // Devolver la vista para crear un nuevo doctor
-        return view('admin.doctors.create');
+        return view('admin.doctores.create');
     }
 
     /**
@@ -41,7 +41,7 @@ class DoctorController extends Controller
         // ...
 
         // Redirigir a la vista de lista de doctores después de crear un doctor
-        return redirect()->route('admin.doctors');
+        return redirect()->route('admin.doctores');
     }
 
     /**
@@ -53,7 +53,7 @@ class DoctorController extends Controller
         // ...
 
         // Devolver la vista de detalles de doctor
-        return view('admin.doctors.show');
+        return view('admin.doctores.show');
     }
 
     /**
@@ -65,7 +65,7 @@ class DoctorController extends Controller
         // ...
 
         // Devolver la vista de edición de doctor
-        return view('admin.doctors.edit');
+        return view('admin.doctores.edit');
     }
 
     /**
@@ -82,7 +82,7 @@ class DoctorController extends Controller
         // ...
 
         // Redirigir a la vista de lista de doctores después de la actualización
-        return redirect()->route('admin.doctors');
+        return redirect()->route('admin.doctores');
     }
 
     /**
@@ -94,6 +94,6 @@ class DoctorController extends Controller
         // ...
 
         // Redirigir a la vista de lista de doctores después de la eliminación
-        return redirect()->route('admin.doctors');
+        return redirect()->route('admin.doctores');
     }
 }
