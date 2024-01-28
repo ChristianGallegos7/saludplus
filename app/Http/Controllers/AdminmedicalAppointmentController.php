@@ -64,6 +64,10 @@ class AdminMedicalAppointmentController extends Controller
      */
     public function edit(string $id)
     {
+        $cita = MedicalAppointment::findOrFail($id); // Obtener la cita médica por su ID
+    // Puedes cargar los datos adicionales necesarios, como los médicos y pacientes, si es necesario
+
+        return view('admin.citas.edit', compact('cita'));
         // Obtener y devolver la vista para editar una cita médica específica
     }
 
@@ -74,14 +78,23 @@ class AdminMedicalAppointmentController extends Controller
     {
         // Validar los datos del formulario de edición
         $request->validate([
-            // Puedes agregar reglas de validación según tus necesidades
+            'date_time' => 'required', // Puedes agregar más reglas de validación según tus necesidades
         ]);
-
-        // Actualizar la cita médica específica
-        // ...
-
+    
+        // Obtener la cita médica por su ID
+        $cita = MedicalAppointment::findOrFail($id);
+    
+        // Actualizar los campos con los datos del formulario
+        $cita->date_time = $request->date_time;
+        $cita->doctor_id = $request->doctor_id;
+        $cita->patient_id = $request->patient_id;
+        $cita->status = $request->status;
+    
+        // Guardar los cambios en la base de datos
+        $cita->save();
+    
         // Redirigir a la vista de citas médicas después de la actualización
-        return redirect()->route('admin.citas');
+        return redirect()->route('admin.appointments')->with('success', 'La cita médica ha sido actualizada correctamente.');
     }
 
     /**
@@ -91,8 +104,8 @@ class AdminMedicalAppointmentController extends Controller
     {
         // Eliminar la cita médica específica
         // ...
-
+        dd("se elemino la cita");
         // Redirigir a la vista de citas médicas después de la eliminación
-        return redirect()->route('admin.citas');
+        return redirect()->route('admin.appointments');
     }
 }
