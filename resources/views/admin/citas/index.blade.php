@@ -5,6 +5,11 @@
 @endsection
 
 @section('contenido')
+    @if (session('success'))
+        <div class="bg-green-200 text-green-800 p-3 rounded-md mb-4 w-auto success-alert" id="success-alert">
+            {{ session('success') }}
+        </div>
+    @endif
     <a class="font-bold uppercase text-white bg-yellow-500 text-sm p-2 rounded-lg hover:bg-yellow-600"
         href="{{ route('admin.dashboard') }}">
         Volver
@@ -27,7 +32,7 @@
                             Editar
                         </a>
 
-                        <form action="" method="post">
+                        <form action="{{ route('admin.destroy.appointment', ['id' => $cita->id]) }}" method="post">
                             @csrf
                             @method('DELETE')
 
@@ -35,6 +40,7 @@
                                 Eliminar
                             </button>
                         </form>
+
                     </div>
                 </div>
             @endforeach
@@ -50,3 +56,4 @@
         </div>
     </div>
 @endsection
+

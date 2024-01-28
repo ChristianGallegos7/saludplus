@@ -102,10 +102,14 @@ class AdminMedicalAppointmentController extends Controller
      */
     public function destroy(string $id)
     {
-        // Eliminar la cita médica específica
-        // ...
-        dd("se elemino la cita");
+        // Buscar la cita médica por su ID
+        $cita = MedicalAppointment::findOrFail($id);
+    
+        // Eliminar la cita médica
+        $cita->delete();
+    
         // Redirigir a la vista de citas médicas después de la eliminación
-        return redirect()->route('admin.appointments');
+        return redirect()->route('admin.appointments')->with('success', 'La cita médica ha sido eliminada exitosamente.');
     }
+    
 }
