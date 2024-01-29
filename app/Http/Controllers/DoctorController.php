@@ -3,97 +3,73 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Doctor; // Asegúrate de importar el modelo Doctor al principio del archivo
 
 class DoctorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         // Obtener y mostrar la lista de doctores
-        // ...
-
-        // Devolver la vista de lista de doctores
-        return view('admin.doctores.index');
+        $doctores = Doctor::all();
+        return view('admin.doctores.index', compact('doctores'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         // Devolver la vista para crear un nuevo doctor
         return view('admin.doctores.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         // Validar los datos del formulario
         $request->validate([
-            // Puedes agregar reglas de validación según tus necesidades
+            // Define tus reglas de validación aquí
         ]);
 
         // Crear un nuevo doctor
-        // ...
+        Doctor::create($request->all());
 
         // Redirigir a la vista de lista de doctores después de crear un doctor
-        return redirect()->route('admin.doctores');
+        return redirect()->route('admin.doctores.index')->with('success', 'Doctor creado correctamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show($id)
     {
         // Obtener y mostrar detalles de un doctor específico
-        // ...
-
-        // Devolver la vista de detalles de doctor
-        return view('admin.doctores.show');
+        $doctor = Doctor::findOrFail($id);
+        return view('admin.doctores.show', compact('doctor'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit($id)
     {
         // Obtener y devolver la vista para editar un doctor específico
-        // ...
-
-        // Devolver la vista de edición de doctor
-        return view('admin.doctores.edit');
+        $doctor = Doctor::findOrFail($id);
+        return view('admin.doctores.edit', compact('doctor'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
         // Validar los datos del formulario de edición
         $request->validate([
-            // Puedes agregar reglas de validación según tus necesidades
+            // Define tus reglas de validación aquí
         ]);
 
         // Actualizar el doctor específico
-        // ...
+        $doctor = Doctor::findOrFail($id);
+        $doctor->update($request->all());
 
         // Redirigir a la vista de lista de doctores después de la actualización
-        return redirect()->route('admin.doctores');
+        return redirect()->route('admin.doctores.index')->with('success', 'Doctor actualizado correctamente.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy($id)
     {
         // Eliminar el doctor específico
-        // ...
+        $doctor = Doctor::findOrFail($id);
+        $doctor->delete();
 
         // Redirigir a la vista de lista de doctores después de la eliminación
-        return redirect()->route('admin.doctores');
+        return redirect()->route('admin.doctores.index')->with('success', 'Doctor eliminado correctamente.');
     }
 }

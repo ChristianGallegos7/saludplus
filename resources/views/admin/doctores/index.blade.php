@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('titulo')
-    Panel de Citas
+    Panel de Doctores
 @endsection
 
 @section('contenido')

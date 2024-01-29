@@ -20,30 +20,36 @@
             <h2 class="text-2xl font-bold mb-4">Lista de Citas Médicas</h2>
             <!-- Aquí puedes iterar sobre tus citas y mostrarlas -->
             @foreach ($citas as $cita)
-                <div class="bg-green-400 hover:bg-green-600 p-4 mb-4 rounded-lg shadow-lg cursor-pointer">
-                    <p class="font-bold">Fecha de la cita: {{ $cita->date_time }}</p>
-                    <p>{{ $cita->doctor_id }}</p>
-                    <p>Estado de la cita: {{ $cita->status }}</p>
-
-                    <!-- Botones de editar y eliminar -->
-                    <div class="flex mt-2">
-                        <a href="{{ route('admin.edit.appointment', ['id' => $cita->id]) }}"
-                            class="bg-blue-500 text-white px-2 py-1 rounded-md mr-2 hover:bg-blue-600">
-                            Editar
-                        </a>
-
-                        <form action="{{ route('admin.destroy.appointment', ['id' => $cita->id]) }}" method="post">
-                            @csrf
-                            @method('DELETE')
-
-                            <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600">
-                                Eliminar
-                            </button>
-                        </form>
-
-                    </div>
+            <div class="bg-green-400 hover:bg-green-600 p-4 mb-4 rounded-lg shadow-lg cursor-pointer">
+                <p class="font-bold">Fecha de la cita: {{ $cita->date_time }}</p>
+                <p>
+                    @if ($cita->doctor)
+                        Médico: {{ $cita->doctor->nombre }}
+                    @else
+                        Médico no asignado
+                    @endif
+                </p>
+                <p>Estado de la cita: {{ $cita->status }}</p>
+        
+                <!-- Botones de editar y eliminar -->
+                <div class="flex mt-2">
+                    <a href="{{ route('admin.edit.appointment', ['id' => $cita->id]) }}"
+                        class="bg-blue-500 text-white px-2 py-1 rounded-md mr-2 hover:bg-blue-600">
+                        Editar
+                    </a>
+        
+                   <form action="{{ route('admin.destroy.appointment', ['id' => $cita->id]) }}" method="post" onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta cita?');">
+                        @csrf
+                        @method('DELETE')
+        
+                        <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600">
+                            Eliminar
+                        </button>
+                    </form>
                 </div>
-            @endforeach
+            </div>
+        @endforeach
+        
 
         </div>
         <div class="w-1/4 p-4 bg-gray-200">
