@@ -51,6 +51,7 @@ class AdminMedicalAppointmentController extends Controller
         MedicalAppointment::create([
             'date_time' => $request->date_time,
             'doctor_id' => $request->doctor_id,
+            'patient_id' => $request->patient_id,
             'status' => $request->status
         ]);
     
@@ -72,11 +73,12 @@ class AdminMedicalAppointmentController extends Controller
     public function edit(string $id)
     {
         $cita = MedicalAppointment::findOrFail($id); // Obtener la cita médica por su ID
-    // Puedes cargar los datos adicionales necesarios, como los médicos y pacientes, si es necesario
-
-        return view('admin.citas.edit', compact('cita'));
-        // Obtener y devolver la vista para editar una cita médica específica
+        $doctors = Doctor::all(); // Obtener la lista de doctores
+        $usuarios = User::all(); // Obtener la lista de usuarios si es necesario
+    
+        return view('admin.citas.edit', compact('cita', 'doctors', 'usuarios'));
     }
+    
 
     /**
      * Update the specified resource in storage.
