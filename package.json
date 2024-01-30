@@ -3,6 +3,10 @@
     "type": "module",
     "scripts": {
         "start": "npm run dev",
+<<<<<<< HEAD
+=======
+        "artisan": "php artisan serve",
+>>>>>>> 58d4324ec8aafc04f30ffb557ad2ec52f946f094
         "dev": "vite",
         "build": "vite build"
     },
