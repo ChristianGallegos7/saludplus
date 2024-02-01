@@ -7,6 +7,13 @@
             "runOptions": {
                 "runOn": "folderOpen"
             }
+        },
+        {
+            "type": "npm",
+            "script": "artisan",
+            "runOptions": {
+                "runOn": "folderOpen"
+            }
         }
     ]
 }
