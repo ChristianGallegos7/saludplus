@@ -37,12 +37,7 @@ Route::delete('/admin/citas/{id}', [AdminMedicalAppointmentController::class, 'd
 Route::get('/admin/doctores', [DoctorController::class, 'index'])->name('admin.doctors');
 Route::get('/admin/doctores/crear', [DoctorController::class, 'create'])->name('admin.create.doctor');
 Route::post('/admin/doctores/crear', [DoctorController::class, 'store']);
-// Mostrar el formulario de edición para un doctor específico
 Route::get('/admin/doctores/{doctor}/editar', [DoctorController::class, 'edit'])->name('admin.edit.doctor');
-
-// Actualizar un doctor específico en la base de datos
 Route::put('/admin/doctores/{doctor}', [DoctorController::class, 'update'])->name('admin.update.doctor');
-
-// Eliminar un doctor específico de la base de datos
 Route::delete('/admin/doctores/{doctor}', [DoctorController::class, 'destroy'])->name('admin.delete.doctor');
 
