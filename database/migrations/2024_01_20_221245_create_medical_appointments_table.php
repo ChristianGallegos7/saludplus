@@ -14,13 +14,9 @@ return new class extends Migration
             $table->id();
             $table->dateTime('date_time'); // Fecha y hora de la cita
             $table->enum('status', ['available', 'reserved', 'completed'])->default('available');
-            $table->unsignedBigInteger('patient_id')->nullable(); // ID del paciente asociado
             $table->unsignedBigInteger('doctor_id')->nullable(); // ID del médico asociado
             $table->timestamps();
 
-            // Claves foráneas
-            $table->foreign('patient_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('doctor_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
