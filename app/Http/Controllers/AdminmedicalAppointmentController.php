@@ -43,15 +43,12 @@ class AdminMedicalAppointmentController extends Controller
         // Validar los datos del formulario
         $request->validate([
             'date_time' => 'required|date',
-            'patient_id' => 'required',
             'status' => 'required|in:available,reserved,completed',
         ]);
     
         // Crear una nueva cita médica
         MedicalAppointment::create([
             'date_time' => $request->date_time,
-            'doctor_id' => $request->doctor_id,
-            'patient_id' => $request->patient_id,
             'status' => $request->status
         ]);
     

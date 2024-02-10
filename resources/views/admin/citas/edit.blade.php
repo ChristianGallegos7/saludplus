@@ -36,17 +36,6 @@
                     </select>
                 </div>
 
-                <!-- Select para el paciente -->
-                <div class="mb-4">
-                    <label for="patient_id" class="block text-sm font-semibold text-gray-600">Paciente:</label>
-                    <select id="patient_id" name="patient_id"
-                        class="w-full p-2 mt-1 border rounded-md focus:outline-none focus:ring focus:border-blue-300">
-                        @foreach($usuarios as $usuario)
-                            <option value="{{ $usuario->id }}" {{ $usuario->id == $cita->patient_id ? 'selected' : '' }}>{{ $usuario->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
                 <!-- Select para el estado de la cita -->
                 <div class="mb-4">
                     <label for="status" class="block text-sm font-semibold text-gray-600">Estado de la Cita:</label>

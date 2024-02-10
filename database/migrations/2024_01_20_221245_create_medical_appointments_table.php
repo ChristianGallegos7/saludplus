@@ -3,7 +3,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateMedicalAppointmentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,9 +14,9 @@ return new class extends Migration
             $table->id();
             $table->dateTime('date_time'); // Fecha y hora de la cita
             $table->enum('status', ['available', 'reserved', 'completed'])->default('available');
-            $table->unsignedBigInteger('doctor_id')->nullable(); // ID del médico asociado
+            $table->unsignedInteger('doctor_id')->nullable();
+            // $table->foreign('doctor_id')->references('id')->on('doctors')->onDelete('cascade');
             $table->timestamps();
-
         });
     }
 
@@ -27,5 +27,6 @@ return new class extends Migration
     {
         Schema::dropIfExists('medical_appointments');
     }
-};
+}
+
 
