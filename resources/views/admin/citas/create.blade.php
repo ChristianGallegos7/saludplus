@@ -90,3 +90,18 @@
         </div>
     </div>
 @endsection
+<script>
+    function getDoctorsBySpecialty(specialtyId) {
+        $.ajax({
+            url: "{{ route('getDoctorsBySpecialty') }}",
+            type: 'GET',
+            data: { specialty_id: specialtyId },
+            success: function(response) {
+                $('#doctor_id').empty();
+                $.each(response.doctors, function(key, value) {
+                    $('#doctor_id').append($('<option>', { value: value.id }).text(value.nombre));
+                });
+            }
+        });
+    }
+</script>

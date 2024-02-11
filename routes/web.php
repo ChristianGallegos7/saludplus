@@ -41,3 +41,4 @@ Route::get('/admin/doctores/{doctor}/editar', [DoctorController::class, 'edit'])
 Route::put('/admin/doctores/{doctor}', [DoctorController::class, 'update'])->name('admin.update.doctor');
 Route::delete('/admin/doctores/{doctor}', [DoctorController::class, 'destroy'])->name('admin.delete.doctor');
 
+Route::get('get-doctors-by-specialty', 'AppointmentController@getDoctorsBySpecialty')->name('getDoctorsBySpecialty');
