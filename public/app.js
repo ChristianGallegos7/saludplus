@@ -19,4 +19,7 @@ function getDoctorsBySpecialty(specialtyId) {
 }
 
 
-
+// Esperar 3 segundos y luego ocultar la alerta de éxito
+setTimeout(function () {
+    document.getElementById('successAlert').style.display = 'none';
+}, 3000); // 3000 milisegundos = 3 segundos

@@ -5,11 +5,24 @@
 @endsection
 
 @section('contenido')
-    @if (session('success'))
-        <div class="bg-green-200 text-green-800 p-3 rounded-md mb-4 w-auto success-alert" id="success-alert">
+@if(session('success'))
+    <div class="flex justify-center">
+        <div class="bg-green-600 p-3 text-white rounded-lg shadow-md font-semibold" role="alert" id="successAlert">
             {{ session('success') }}
         </div>
-    @endif
+    </div>
+@endif
+
+
+
+<style>
+    /* Personalización CSS para hacer que la alerta ocupe solo el tamaño del texto */
+    #successAlert {
+        display: inline-block;
+        max-width: calc(100% - 20px); /* Tamaño máximo del texto */
+    }
+</style>
+
     <a class="font-bold uppercase text-white bg-yellow-500 text-sm p-2 rounded-lg hover:bg-yellow-600"
         href="{{ route('admin.dashboard') }}">
         Volver
