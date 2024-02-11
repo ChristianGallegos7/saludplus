@@ -8,6 +8,8 @@ use App\Models\Doctor;
 use App\Models\User;
 use Illuminate\Validation\Rule;
 use App\Models\Specialty;
+use App\Rules\ValidAppointmentTime;
+use Illuminate\Support\Carbon;
 
 class AdminMedicalAppointmentController extends Controller
 {
@@ -45,12 +47,17 @@ class AdminMedicalAppointmentController extends Controller
     {
         // Validar los datos recibidos del formulario
         $request->validate([
-            'appointment_datetime' => 'required|date',
+            'appointment_datetime' => ['required', 'date','after_or_equal:' . Carbon::now()->format('Y-m-d\TH:i') ,new ValidAppointmentTime],
             'specialty' => 'required|exists:specialties,id', // Asegúrate de que la especialidad seleccionada existe en la tabla de especialidades
             'doctor_id' => 'required|exists:doctors,id', // Asegúrate de que el médico seleccionado existe en la tabla de doctores
             'additional_info' => 'nullable|string',
             'status' => 'required|in:available,reserved,completed', // Asegúrate de que el estado sea uno de los valores permitidos
-        ]);
+        ],
+        [
+            'appointment_datetime.valid_appointment_time' => 'La cita médica solo puede ser programada entre las 8:00 y las 17:00 horas.',
+            'appointment_datetime.after_or_equal' => 'La cita médica debe ser programada para una fecha y hora futura.'
+        ]
+    );
 
         // Crear una nueva instancia de MedicalAppointment con los datos recibidos del formulario
         $appointment = new MedicalAppointment();
