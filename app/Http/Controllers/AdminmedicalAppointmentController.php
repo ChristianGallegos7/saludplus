@@ -18,7 +18,7 @@ class AdminMedicalAppointmentController extends Controller
     {
         // Obtener todas las citas médicas
         $citas = MedicalAppointment::all();
-        
+
         // Devolver la vista con las citas médicas
         return view('admin.citas.index', compact('citas'));
     }
@@ -30,10 +30,10 @@ class AdminMedicalAppointmentController extends Controller
     {
         // Obtener la lista de especialidades desde la base de datos
         $specialties = Specialty::all();
-        
+
         // Obtener la lista de doctores desde la base de datos
         $doctors = Doctor::all();
-        
+
         // Devolver la vista para crear una nueva cita médica
         return view('admin.citas.create', compact('specialties', 'doctors'));
     }
@@ -83,10 +83,11 @@ class AdminMedicalAppointmentController extends Controller
         $cita = MedicalAppointment::findOrFail($id); // Obtener la cita médica por su ID
         $doctors = Doctor::all(); // Obtener la lista de doctores
         $usuarios = User::all(); // Obtener la lista de usuarios si es necesario
-    
-        return view('admin.citas.edit', compact('cita', 'doctors', 'usuarios'));
+        $specialties = Specialty::all();
+
+        return view('admin.citas.edit', compact('cita', 'doctors', 'usuarios', 'specialties'));
     }
-    
+
 
     /**
      * Update the specified resource in storage.
@@ -97,19 +98,19 @@ class AdminMedicalAppointmentController extends Controller
         $request->validate([
             'appointment_datetime' => 'required|date', // Agregar más reglas de validación según sea necesario
         ]);
-    
+
         // Obtener la cita médica por su ID
         $cita = MedicalAppointment::findOrFail($id);
-    
+
         // Actualizar los campos con los datos del formulario
         $cita->appointment_datetime = $request->appointment_datetime;
         $cita->doctor_id = $request->doctor_id;
         $cita->user_id = $request->user_id;
         $cita->status = $request->status;
-    
+
         // Guardar los cambios en la base de datos
         $cita->save();
-    
+
         // Redirigir a la vista de citas médicas después de la actualización
         return redirect()->route('admin.appointments')->with('success', 'La cita médica ha sido actualizada correctamente.');
     }
@@ -121,17 +122,18 @@ class AdminMedicalAppointmentController extends Controller
     {
         // Buscar la cita médica por su ID
         $cita = MedicalAppointment::findOrFail($id);
-    
+
         // Eliminar la cita médica
         $cita->delete();
-    
+
         // Redirigir a la vista de citas médicas después de la eliminación
         return redirect()->route('admin.appointments')->with('success', 'La cita médica ha sido eliminada exitosamente.');
     }
-    
-    public function getDoctorsBySpecialty(Request $request) {
+
+    public function getDoctorsBySpecialty(Request $request)
+    {
         $specialtyId = $request->specialty_id;
         $doctors = Doctor::where('specialty_id', $specialtyId)->get();
         return response()->json(['doctors' => $doctors]);
-    }  
+    }
 }
