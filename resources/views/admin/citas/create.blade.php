@@ -18,43 +18,54 @@
                 @csrf
 
                 <div class="mb-4">
-                    <label for="date_time" class="block text-sm font-semibold text-gray-600">Fecha y Hora de la Cita:</label>
+                    <label for="appointment_datetime" class="block text-sm font-semibold text-gray-600">Fecha y Hora de la Cita:</label>
                     <input 
-                    type="datetime-local" 
-                        id="date_time" 
-                        name="date_time" 
+                        type="datetime-local" 
+                        id="appointment_datetime" 
+                        name="appointment_datetime" 
                         required
                         min="{{ now()->format('Y-m-d\TH:i') }}"
                         class="w-full p-2 mt-1 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-                        value="{{ old('date_time') }}"
-                        >
-                    @error('date_time')
+                        value="{{ old('appointment_datetime') }}"
+                    >
+                    @error('appointment_datetime')
                         <p class="bg-red-600 text-white uppercase p-3 rounded-lg text-center mt-2 text-sm">
                             {{ $message }}
                         </p>
                     @enderror
                 </div>
+                <div class="mb-4">
+                    <label for="specialty" class="block text-sm font-semibold text-gray-600">Especialidad:</label>
+                    <select id="specialty" name="specialty" required onchange="getDoctorsBySpecialty(this.value)"
+                        class="w-full p-2 mt-1 border rounded-md focus:outline-none focus:ring focus:border-blue-300">
+                        <option value="">Selecciona una especialidad</option>
+                        @foreach ($specialties as $specialty)
+                            <option value="{{ $specialty->id }}">{{ $specialty->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('specialty')
+                        <p class="bg-red-600 text-white uppercase p-3 rounded-lg text-center mt-2 text-sm">
+                            {{ $message }}
+                        </p>
+                    @enderror
+                </div>
+                
 
                 <div class="mb-4">
                     <label for="doctor_id" class="block text-sm font-semibold text-gray-600">Médico Asociado:</label>
                     <select id="doctor_id" name="doctor_id" required
-                        class="w-full p-2 mt-1 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-                        value="{{ old('doctor_id') }}"
-                        >
+                        class="w-full p-2 mt-1 border rounded-md focus:outline-none focus:ring focus:border-blue-300">
                         <!-- Iterar sobre la lista de doctores para mostrar las opciones -->
                         @foreach ($doctors as $doctor)
                             <option value="{{ $doctor->id }}">{{ $doctor->nombre }}</option>
                         @endforeach
                     </select>
                     @error('doctor_id')
-                    <p class="bg-red-600 text-white uppercase p-3 rounded-lg text-center mt-2 text-sm">
-                        {{ $message }}
-                    </p>
-                @enderror
+                        <p class="bg-red-600 text-white uppercase p-3 rounded-lg text-center mt-2 text-sm">
+                            {{ $message }}
+                        </p>
+                    @enderror
                 </div>
-
-
-              
 
                 <div class="mb-4">
                     <label for="status" class="block text-sm font-semibold text-gray-600">Estado de la Cita:</label>
@@ -65,10 +76,10 @@
                         <option value="completed">Completada</option>
                     </select>
                     @error('status')
-                    <p class="bg-red-600 text-white uppercase p-3 rounded-lg text-center mt-2 text-sm">
-                        {{ $message }}
-                    </p>
-                @enderror
+                        <p class="bg-red-600 text-white uppercase p-3 rounded-lg text-center mt-2 text-sm">
+                            {{ $message }}
+                        </p>
+                    @enderror
                 </div>
 
                 <button type="submit"
