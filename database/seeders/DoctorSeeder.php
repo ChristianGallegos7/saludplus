@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Doctor;
 use Faker\Factory as Faker;
+use App\Models\Specialty;
 
 class DoctorSeeder extends Seeder
 {
@@ -17,11 +18,14 @@ class DoctorSeeder extends Seeder
         // Usamos Faker para generar datos ficticios
         $faker = Faker::create();
 
+        // Obtener todos los IDs de las especialidades disponibles
+        $especialidadesIds = Specialty::pluck('id')->toArray();
+
         // Creamos 10 doctores ficticios
         for ($i = 0; $i < 10; $i++) {
             Doctor::create([
                 'nombre' => $faker->name,
-                'especialidad' => $faker->randomElement(['Cardiología', 'Dermatología', 'Pediatría', 'Neurología']),
+                'specialty_id' => $faker->randomElement($especialidadesIds),
                 'telefono' => $faker->phoneNumber,
                 'correo' => $faker->email,
             ]);

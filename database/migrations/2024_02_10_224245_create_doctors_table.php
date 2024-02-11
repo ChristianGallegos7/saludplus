@@ -14,12 +14,16 @@ return new class extends Migration
         Schema::create('doctors', function (Blueprint $table) {
             $table->id();
             $table->string('nombre'); // Nombre del doctor
-            $table->string('especialidad'); // Especialidad del doctor
+            $table->unsignedBigInteger('specialty_id'); // ID de la especialidad del doctor
             $table->string('telefono'); // Número de teléfono del doctor
             $table->string('correo')->unique(); // Correo electrónico del doctor (único)
             $table->timestamps();
+    
+            // Definir restricción de clave externa
+            // $table->foreign('specialty_id')->references('id')->on('specialties')->onDelete('cascade');
         });
     }
+    
 
     /**
      * Reverse the migrations.
