@@ -15,13 +15,11 @@ return new class extends Migration
             $table->id();
             $table->dateTime('appointment_datetime'); // Fecha y hora de la cita médica
             $table->enum('status', ['available', 'reserved', 'completed'])->default('available'); // Estado de la cita médica
-            $table->unsignedBigInteger('user_id'); // ID del paciente asociado (clave externa)
             $table->unsignedBigInteger('doctor_id'); // ID del doctor asociado (clave externa)
             $table->text('additional_info')->nullable(); // Información adicional sobre la cita médica (opcional)
             $table->timestamps();
             
             // Definir restricciones de clave externa
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('doctor_id')->references('id')->on('doctors')->onDelete('cascade');
         });
     }

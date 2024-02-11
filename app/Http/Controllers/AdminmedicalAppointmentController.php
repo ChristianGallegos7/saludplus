@@ -43,20 +43,20 @@ class AdminMedicalAppointmentController extends Controller
      */
     public function store(Request $request)
     {
-        // Validar los datos del formulario
         $request->validate([
-            'date_time' => 'required|date',
-            'status' => 'required|in:available,reserved,completed',
-            'doctor_id' => 'required|exists:doctors,id',
-            'user_id' => 'required|exists:users,id',
+            'appointment_datetime' => 'required|date_format:Y-m-d\TH:i',
+            'specialty' => 'required',
+            'doctor_id' => 'required',
+            'status' => 'required',
+            'additional_info' => 'nullable|string',
         ]);
     
-        // Crear una nueva cita médica
         MedicalAppointment::create([
-            'date_time' => $request->date_time,
-            'status' => $request->status,
+            'appointment_datetime' => $request->appointment_datetime,
+            'specialty_id' => $request->specialty,
             'doctor_id' => $request->doctor_id,
-            'user_id' => $request->user_id,
+            'status' => $request->status,
+            'additional_info' => $request->additional_info,
         ]);
     
         // Redirigir a la vista de citas médicas después de crear una cita
@@ -91,14 +91,14 @@ class AdminMedicalAppointmentController extends Controller
     {
         // Validar los datos del formulario de edición
         $request->validate([
-            'date_time' => 'required', // Puedes agregar más reglas de validación según tus necesidades
+            'appointment_datetime' => 'required|date', // Agregar más reglas de validación según sea necesario
         ]);
     
         // Obtener la cita médica por su ID
         $cita = MedicalAppointment::findOrFail($id);
     
         // Actualizar los campos con los datos del formulario
-        $cita->date_time = $request->date_time;
+        $cita->appointment_datetime = $request->appointment_datetime;
         $cita->doctor_id = $request->doctor_id;
         $cita->user_id = $request->user_id;
         $cita->status = $request->status;
@@ -124,6 +124,7 @@ class AdminMedicalAppointmentController extends Controller
         // Redirigir a la vista de citas médicas después de la eliminación
         return redirect()->route('admin.appointments')->with('success', 'La cita médica ha sido eliminada exitosamente.');
     }
+    
     public function getDoctorsBySpecialty(Request $request) {
         $specialtyId = $request->specialty_id;
         $doctors = Doctor::where('specialty_id', $specialtyId)->get();
