@@ -33,8 +33,7 @@
 
     <div class="mb-4">
         <label for="specialty" class="block text-sm font-semibold text-gray-600">Especialidad:</label>
-        <select id="specialty" name="specialty" required onchange="getDoctorsBySpecialty(this.value)"
-            class="w-full p-2 mt-1 border rounded-md focus:outline-none focus:ring focus:border-blue-300">
+        <select id="specialty" name="specialty" required class="w-full p-2 mt-1 border rounded-md focus:outline-none focus:ring focus:border-blue-300">
             <option value="">Selecciona una especialidad</option>
             @foreach ($specialties as $specialty)
                 <option value="{{ $specialty->id }}">{{ $specialty->name }}</option>
@@ -46,6 +45,25 @@
             </p>
         @enderror
     </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        document.getElementById('specialty').addEventListener('change', function() {
+            var specialtyId = this.value;
+            axios.get('/get-doctors-by-specialty', {
+                params: {
+                    specialty_id: specialtyId
+                }
+            })
+            .then(function(response) {
+                // Manejar la respuesta y actualizar la lista de médicos en el campo de selección de médicos
+            })
+            .catch(function(error) {
+                console.error('Error al obtener los médicos:', error);
+            });
+        });
+    </script>
+    
 
     <div class="mb-4">
         <label for="doctor_id" class="block text-sm font-semibold text-gray-600">Médico Asociado:</label>
@@ -98,22 +116,6 @@
         </div>
     </div>
 @endsection
-<script>
-    function getDoctorsBySpecialty(specialtyId) {
-        $.ajax({
-            url: "{{ route('getDoctorsBySpecialty') }}",
-            type: 'GET',
-            data: {
-                specialty_id: specialtyId
-            },
-            success: function(response) {
-                $('#doctor_id').empty();
-                $.each(response.doctors, function(key, value) {
-                    $('#doctor_id').append($('<option>', {
-                        value: value.id
-                    }).text(value.nombre));
-                });
-            }
-        });
-    }
-</script>
+
+
+
