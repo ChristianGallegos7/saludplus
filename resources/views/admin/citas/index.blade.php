@@ -21,7 +21,15 @@
             <!-- Aquí puedes iterar sobre tus citas y mostrarlas -->
             @foreach ($citas as $cita)
             <div class="bg-green-400 hover:bg-green-600 p-4 mb-4 rounded-lg shadow-lg cursor-pointer">
-                <p class="font-bold">Fecha de la cita: {{ $cita->date_time }}</p>
+                <p class="font-bold">Fecha de la cita: {{ $cita->appointment_datetime }}</p>
+                <p>
+                    Especialidad:
+                    @if ($cita->specialty)
+                        {{ $cita->specialty->name }}
+                    @else
+                        Especialidad no asignada
+                    @endif
+                </p>
                 <p>
                     @if ($cita->doctor)
                         Médico: {{ $cita->doctor->nombre }}
@@ -30,18 +38,18 @@
                     @endif
                 </p>
                 <p>Estado de la cita: {{ $cita->status }}</p>
-        
+                @if ($cita->additional_info)
+                    <p>Información adicional: {{ $cita->additional_info }}</p>
+                @endif
                 <!-- Botones de editar y eliminar -->
                 <div class="flex mt-2">
                     <a href="{{ route('admin.edit.appointment', ['id' => $cita->id]) }}"
                         class="bg-blue-500 text-white px-2 py-1 rounded-md mr-2 hover:bg-blue-600">
                         Editar
                     </a>
-        
-                   <form action="{{ route('admin.destroy.appointment', ['id' => $cita->id]) }}" method="post" onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta cita?');">
+                    <form action="{{ route('admin.destroy.appointment', ['id' => $cita->id]) }}" method="post" onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta cita?');">
                         @csrf
                         @method('DELETE')
-        
                         <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600">
                             Eliminar
                         </button>
@@ -49,6 +57,8 @@
                 </div>
             </div>
         @endforeach
+        
+        
         
 
         </div>

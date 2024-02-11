@@ -43,23 +43,27 @@ class AdminMedicalAppointmentController extends Controller
      */
     public function store(Request $request)
     {
+        // Validar los datos recibidos del formulario
         $request->validate([
-            'appointment_datetime' => 'required|date_format:Y-m-d\TH:i',
-            'specialty' => 'required',
-            'doctor_id' => 'required',
-            'status' => 'required',
+            'appointment_datetime' => 'required|date',
+            'specialty' => 'required|exists:specialties,id', // Asegúrate de que la especialidad seleccionada existe en la tabla de especialidades
+            'doctor_id' => 'required|exists:doctors,id', // Asegúrate de que el médico seleccionado existe en la tabla de doctores
             'additional_info' => 'nullable|string',
+            'status' => 'required|in:available,reserved,completed', // Asegúrate de que el estado sea uno de los valores permitidos
         ]);
-    
-        MedicalAppointment::create([
-            'appointment_datetime' => $request->appointment_datetime,
-            'specialty_id' => $request->specialty,
-            'doctor_id' => $request->doctor_id,
-            'status' => $request->status,
-            'additional_info' => $request->additional_info,
-        ]);
-    
-        // Redirigir a la vista de citas médicas después de crear una cita
+
+        // Crear una nueva instancia de MedicalAppointment con los datos recibidos del formulario
+        $appointment = new MedicalAppointment();
+        $appointment->appointment_datetime = $request->appointment_datetime;
+        $appointment->specialty_id = $request->specialty;
+        $appointment->doctor_id = $request->doctor_id;
+        $appointment->additional_info = $request->additional_info;
+        $appointment->status = $request->status;
+
+        // Guardar la cita médica en la base de datos
+        $appointment->save();
+
+        // Redireccionar a la vista de citas médicas después de crear una cita con un mensaje de éxito
         return redirect()->route('admin.appointments')->with('success', 'La cita médica ha sido creada exitosamente.');
     }
 
