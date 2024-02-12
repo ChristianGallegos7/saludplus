@@ -47,18 +47,17 @@ class AdminMedicalAppointmentController extends Controller
     {
         // Validar los datos recibidos del formulario
         $request->validate([
-            'appointment_datetime' => ['required', 'date','after_or_equal:' . Carbon::now()->format('Y-m-d\TH:i') ,new ValidAppointmentTime],
-            'specialty' => 'required|exists:specialties,id', // Asegúrate de que la especialidad seleccionada existe en la tabla de especialidades
-            'doctor_id' => 'required|exists:doctors,id', // Asegúrate de que el médico seleccionado existe en la tabla de doctores
+            'appointment_datetime' => ['required', 'date', new ValidAppointmentTime()],
+            'specialty' => 'required|exists:specialties,id',
+            'doctor_id' => 'required|exists:doctors,id',
             'additional_info' => 'nullable|string',
-            'status' => 'required|in:available,reserved,completed', // Asegúrate de que el estado sea uno de los valores permitidos
-        ],
-        [
+            'status' => 'required|in:available,reserved,completed',
+        ], [
             'appointment_datetime.valid_appointment_time' => 'La cita médica solo puede ser programada entre las 8:00 y las 17:00 horas.',
-            'appointment_datetime.after_or_equal' => 'La cita médica debe ser programada para una fecha y hora futura.'
-        ]
-    );
-
+            'appointment_datetime.date' => 'La fecha y hora de la cita no son válidas.',
+            'appointment_datetime.required' => 'La fecha y hora de la cita son obligatorias.',
+        ]);
+        
         // Crear una nueva instancia de MedicalAppointment con los datos recibidos del formulario
         $appointment = new MedicalAppointment();
         $appointment->appointment_datetime = $request->appointment_datetime;
@@ -99,36 +98,35 @@ class AdminMedicalAppointmentController extends Controller
      * Update the specified resource in storage.
      */
     /**
- * Update the specified resource in storage.
- */
-public function update(Request $request, string $id)
-{
-    // Validar los datos del formulario de edición
-    $request->validate([
-        'appointment_datetime' => 'required|date',
-        'specialty' => 'required|exists:specialties,id',
-        'doctor_id' => 'required|exists:doctors,id',
-        'additional_info' => 'nullable|string',
-        'status' => 'required|in:available,reserved,completed',
-    ]);
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        // Validar los datos del formulario de edición
+        $request->validate([
+            'appointment_datetime' => 'required|date',
+            'specialty' => 'required|exists:specialties,id',
+            'doctor_id' => 'required|exists:doctors,id',
+            'additional_info' => 'nullable|string',
+            'status' => 'required|in:available,reserved,completed',
+        ]);
 
-    // Obtener la cita médica por su ID
-    $cita = MedicalAppointment::findOrFail($id);
+        // Obtener la cita médica por su ID
+        $cita = MedicalAppointment::findOrFail($id);
 
-    // Actualizar los campos con los datos del formulario
-    $cita->appointment_datetime = $request->appointment_datetime;
-    $cita->specialty_id = $request->specialty;
-    $cita->doctor_id = $request->doctor_id;
-    $cita->additional_info = $request->additional_info;
-    $cita->status = $request->status;
+        // Actualizar los campos con los datos del formulario
+        $cita->appointment_datetime = $request->appointment_datetime;
+        $cita->specialty_id = $request->specialty;
+        $cita->doctor_id = $request->doctor_id;
+        $cita->additional_info = $request->additional_info;
+        $cita->status = $request->status;
 
-    // Guardar los cambios en la base de datos
-    $cita->save();
+        // Guardar los cambios en la base de datos
+        $cita->save();
 
-    // Redirigir a la vista de citas médicas después de la actualización
-    return redirect()->route('admin.appointments')->with('success', 'La cita médica ha sido actualizada correctamente.');
-}
-
+        // Redirigir a la vista de citas médicas después de la actualización
+        return redirect()->route('admin.appointments')->with('success', 'La cita médica ha sido actualizada correctamente.');
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -146,13 +144,29 @@ public function update(Request $request, string $id)
     }
     public function getDoctorsBySpecialty(Request $request)
     {
-        // Obtener el ID de la especialidad desde la solicitud
-        $specialtyId = $request->specialty_id;
+        try {
+            $request->validate([
+                'specialty_id' => 'required|exists:specialties,id',
+            ]);
 
-        // Buscar los médicos asociados a la especialidad
-        $doctors = Doctor::where('specialty_id', $specialtyId)->get();
+            $specialtyId = $request->input('specialty_id');
 
-        // Retornar los médicos en formato JSON
-        return response()->json(['doctors' => $doctors]);
+            // Mensaje de depuración para verificar que se esté recibiendo el ID de especialidad correctamente
+            dd('Especialidad ID: ' . $specialtyId);
+
+            $doctors = Doctor::where('specialty_id', $specialtyId)->get();
+
+            // Mensaje de depuración para verificar los médicos obtenidos
+            dd($doctors);
+
+            // Obtener la lista de especialidades para cargar en el formulario
+            $specialties = Specialty::all();
+
+            // Devolver la vista para crear una nueva cita médica con los médicos filtrados por especialidad
+            return view('admin.citas.create', compact('doctors', 'specialties'));
+        } catch (\Exception $e) {
+            // Capturar y manejar cualquier excepción que ocurra durante el proceso
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }

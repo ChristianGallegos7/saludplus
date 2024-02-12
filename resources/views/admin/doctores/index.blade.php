@@ -18,7 +18,8 @@
                 <div class="bg-green-400 hover:bg-green-600 p-4 mb-4 rounded-lg shadow-lg cursor-pointer">
                     {{-- <p class="font-bold">Fecha de la cita: {{ $cita->date_time }}</p> --}}
                     <p>Nombre del doctor: {{ $doctor->nombre }}</p>
-                    <p>Especialidad: {{ $doctor->especialidad }}</p>
+                    
+                    <p>Especialidad: {{ $doctor->specialty->name }}</p>
                     <p>Teléfono: {{ $doctor->telefono }}</p>
                     <p>Correo electrónico: {{ $doctor->correo }}</p>
                     <!-- Aquí muestra la información relevante del doctor -->
