@@ -6,6 +6,7 @@ use App\Http\Controllers\LogOutController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminmedicalAppointmentController;
 
 
@@ -41,4 +42,12 @@ Route::get('/admin/doctores/{doctor}/editar', [DoctorController::class, 'edit'])
 Route::put('/admin/doctores/{doctor}', [DoctorController::class, 'update'])->name('admin.update.doctor');
 Route::delete('/admin/doctores/{doctor}', [DoctorController::class, 'destroy'])->name('admin.delete.doctor');
 
-Route::get('/get-doctors-by-specialty', 'AdminMedicalAppointmentController@getDoctorsBySpecialty')->name('getDoctorsBySpecialty');
+// Route::get('/get-doctors-by-specialty', 'AdminMedicalAppointmentController@getDoctorsBySpecialty')->name('getDoctorsBySpecialty');
+
+
+
+//VISTAS PARA LOS USUARIOS
+Route::get('/panel-citas', [UserController::class, 'index'])->name('patient.dashboard');
+
+//VISTAS PARA LOS DOCTORES
+Route::get('/panel-doctores', [DoctorController::class, 'doctor'])->name('doctor.dashboard');

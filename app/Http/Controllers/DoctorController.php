@@ -8,6 +8,11 @@ use App\Models\Specialty;
 
 class DoctorController extends Controller
 {
+    public function doctor()
+    {
+        return view('doctor.dashboard');
+
+    }
     public function index()
     {
         $doctores = Doctor::all();
