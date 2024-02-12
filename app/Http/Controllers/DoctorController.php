@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Doctor;
+use App\Models\Specialty;
 
 class DoctorController extends Controller
 {
@@ -15,36 +16,53 @@ class DoctorController extends Controller
 
     public function create()
     {
-        return view('admin.doctores.create');
+        $especialidades = Specialty::all();
+        return view('admin.doctores.create', compact('especialidades'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            // Define tus reglas de validación aquí
+            'nombre' => 'required|string|max:255',
+            'specialty_id' => 'required|exists:specialties,id',
+            'telefono' => 'required|string|max:20',
+            'correo' => 'required|email|unique:doctors,correo', // 'correo' es el nombre correcto de la columna
+        ], [
+            'nombre.required' => 'El nombre es obligatorio.',
+            'specialty_id.required' => 'La especialidad es obligatoria.',
+            'specialty_id.exists' => 'La especialidad seleccionada no es válida.',
+            'telefono.required' => 'El teléfono es obligatorio.',
+            'correo.required' => 'El correo electrónico es obligatorio.',
+            'correo.email' => 'El correo electrónico debe ser una dirección de correo válida.',
+            'correo.unique' => 'El correo electrónico ya ha sido registrado.',
         ]);
-
+    
         Doctor::create($request->all());
-
+    
         return redirect()->route('admin.doctores.index')->with('success', 'Doctor creado correctamente.');
     }
-
-    public function edit($id)
-    {
-        $doctor = Doctor::findOrFail($id);
-        return view('admin.doctores.edit', compact('doctor')); // Cambio aquí
-    }
+    
 
     public function update(Request $request, $id)
     {
         $request->validate([
-            // Define tus reglas de validación aquí
+            'nombre' => 'required|string|max:255',
+            'specialty_id' => 'required|exists:specialties,id',
+            'telefono' => 'required|string|max:20',
+            'correo' => 'required|email|unique:doctors,correo,' . $id, // Corregir 'email' a 'correo'
         ]);
 
         $doctor = Doctor::findOrFail($id);
         $doctor->update($request->all());
 
         return redirect()->route('admin.doctors')->with('success', 'Doctor actualizado correctamente.');
+    }
+
+    public function edit($id)
+    {
+        $doctor = Doctor::findOrFail($id);
+        $especialidades = Specialty::all();
+        return view('admin.doctores.edit', compact('doctor', 'especialidades'));
     }
 
     public function destroy($id)

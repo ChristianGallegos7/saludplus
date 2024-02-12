@@ -23,10 +23,16 @@
                 </div>
 
                 <div class="mb-4">
-                    <label for="especialidad" class="block text-sm font-semibold text-gray-600">Especialidad:</label>
-                    <input type="text" id="especialidad" name="especialidad" value="{{ $doctor->especialidad }}"
-                           class="w-full p-2 mt-1 border rounded-md focus:outline-none focus:ring focus:border-blue-300">
+                    <label for="specialty_id" class="block text-sm font-semibold text-gray-600">Especialidad:</label>
+                    <select id="specialty_id" name="specialty_id" required class="w-full p-2 mt-1 border rounded-md focus:outline-none focus:ring focus:border-blue-300">
+                        @foreach ($especialidades as $especialidad)
+                            <option value="{{ $especialidad->id }}" {{ $doctor->specialty_id == $especialidad->id ? 'selected' : '' }}>
+                                {{ $especialidad->name }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
+                
 
                 <div class="mb-4">
                     <label for="telefono" class="block text-sm font-semibold text-gray-600">Teléfono:</label>
