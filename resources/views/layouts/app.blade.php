@@ -7,11 +7,17 @@
     <title>SaludPlus - @yield('titulo')</title>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
     <link rel="shortcut icon" href="{{ asset('favicon.svg') }}" type="image/x-icon">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     @vite('resources/css/app.css')
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+
 </head>
 
 <body class="bg-gray-100">
@@ -37,7 +43,7 @@
                                 href="{{ route('admin.doctors') }}">
                                 Doctores
                             </a>
-                           
+
                         @endif
                     </a>
                     <form method="POST" action="{{ route('logout') }}">
