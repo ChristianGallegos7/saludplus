@@ -5,28 +5,28 @@
 @endsection
 
 @section('contenido')
-@if(session('success'))
-    <div class="flex justify-center">
-        <div class="bg-green-600 p-3 text-white rounded-lg shadow-md font-semibold" role="alert" id="successAlert">
-            {{ session('success') }}
+    @if (session('success'))
+        <div class="flex justify-center">
+            <div class="bg-green-600 p-3 text-white rounded-lg shadow-md font-semibold" role="alert" id="successAlert">
+                {{ session('success') }}
+            </div>
         </div>
-    </div>
-@endif
+    @endif
 
-
-
-<style>
-    /* Personalización CSS para hacer que la alerta ocupe solo el tamaño del texto */
-    #successAlert {
-        display: inline-block;
-        max-width: calc(100% - 20px); /* Tamaño máximo del texto */
-    }
-</style>
+    <style>
+        /* Personalización CSS para hacer que la alerta ocupe solo el tamaño del texto */
+        #successAlert {
+            display: inline-block;
+            max-width: calc(100% - 20px);
+            /* Tamaño máximo del texto */
+        }
+    </style>
 
     <a class="font-bold uppercase text-white bg-yellow-500 text-sm p-2 rounded-lg hover:bg-yellow-600"
         href="{{ route('admin.dashboard') }}">
         Volver
     </a>
+
     <div class="flex justify-between p-4">
         <div class="w-1/1">
             <!-- Lista de citas medicas -->
@@ -34,7 +34,7 @@
             <!-- Aquí puedes iterar sobre tus citas y mostrarlas -->
             @foreach ($citas as $cita)
                 <div
-                    class="bg-white p-4 mb-4 rounded-lg shadow-lg cursor-pointer transition-transform transform hover:scale-105">
+                    class="bg-gray-200 p-4 mb-4 rounded-lg shadow-lg cursor-pointer transition-transform transform hover:scale-105">
                     <p class="font-bold text-lg mb-2">Fecha de la cita: {{ $cita->appointment_datetime }}</p>
                     <p class="mb-2">
                         <span class="font-bold">Especialidad:</span>
@@ -57,32 +57,48 @@
                         <p class="mb-2"><span class="font-bold">Información adicional:</span> {{ $cita->additional_info }}
                         </p>
                     @endif
-                    <!-- Botones de editar y eliminar -->
-                    <div class="flex mt-4">
-                        <a href="{{ route('admin.edit.appointment', ['id' => $cita->id]) }}"
-                            class="bg-blue-500 text-white px-4 py-2 rounded-md mr-2 hover:bg-blue-600 transition-colors duration-300">
-                            Editar
-                        </a>
-                        <form action="{{ route('admin.destroy.appointment', ['id' => $cita->id]) }}" method="post"
-                            onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta cita?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit"
-                                class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors duration-300">
-                                Eliminar
-                            </button>
-                        </form>
-                    </div>
+                    <!-- Botones de editar y eliminar solo para administradores -->
+                    @if (auth()->user()->isAdmin())
+                        <div class="flex mt-4">
+                            <a href="{{ route('admin.edit.appointment', ['id' => $cita->id]) }}"
+                                class="bg-blue-500 text-white px-4 py-2 rounded-md mr-2 hover:bg-blue-600 transition-colors duration-300">
+                                Editar
+                            </a>
+                            <form action="{{ route('admin.destroy.appointment', ['id' => $cita->id]) }}" method="post"
+                                onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta cita?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                    class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors duration-300">
+                                    Eliminar
+                                </button>
+                            </form>
+                        </div>
+                    @endif
+                    <!-- Botón "Obtener cita" para todos los usuarios -->
+                    @if (auth()->user()->isPatient() || auth()->user()->isAdmin())
+                        <div class="flex mt-4">
+                            <a href=""
+                                class="bg-green-500 text-white px-4 py-2 rounded-md mr-2 hover:bg-green-600 transition-colors duration-300">
+                                Obtener cita
+                            </a>
+                            <a href="{{ route('admin.show.appointment', ['id' => $cita->id]) }}" class="bg-yellow-500 text-white px-4 py-2 rounded-md mr-2 hover:bg-yellow-600 transition-colors duration-300">Ver detalles cita</a>
+
+                        </div>
+                    @endif
                 </div>
             @endforeach
         </div>
-        <div class="w-1/4 p-4 bg-gray-200">
-            <!-- Botón para crear una nueva cita -->
-            <h2 class="text-2xl font-bold mb-4">Crear Nueva Cita</h2>
-            <a href="{{ route('admin.create.appointment') }}"
-                class="block w-full p-2 font-bold bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none text-center">
-                Crear Cita Médica
-            </a>
-        </div>
+
+        <!-- Agregar el botón para crear una nueva cita solo para administradores -->
+        @if (auth()->user()->isAdmin())
+            <div class="w-1/4 p-4 bg-gray-200">
+                <h2 class="text-2xl font-bold mb-4">Crear Nueva Cita</h2>
+                <a href="{{ route('admin.create.appointment') }}"
+                    class="block w-full p-2 font-bold bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none text-center">
+                    Crear Cita Médica
+                </a>
+            </div>
+        @endif
     </div>
 @endsection

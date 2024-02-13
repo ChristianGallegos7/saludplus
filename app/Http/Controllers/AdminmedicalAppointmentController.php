@@ -76,10 +76,12 @@ class AdminMedicalAppointmentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        // Obtener y mostrar detalles de una cita médica específica
+        $cita = MedicalAppointment::findOrFail($id);
+        return view('admin.citas.show', compact('cita'));
     }
+    
 
     /**
      * Show the form for editing the specified resource.
