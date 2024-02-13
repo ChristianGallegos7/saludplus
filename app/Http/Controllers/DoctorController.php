@@ -44,7 +44,7 @@ class DoctorController extends Controller
     
         Doctor::create($request->all());
     
-        return redirect()->route('admin.doctores.index')->with('success', 'Doctor creado correctamente.');
+        return redirect()->route('admin.doctors')->with('success', 'Doctor creado correctamente.');
     }
     
 
