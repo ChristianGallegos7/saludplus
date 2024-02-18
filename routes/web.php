@@ -8,11 +8,16 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminmedicalAppointmentController;
+use App\Http\Controllers\ChartController;
 
 
 Route::get('/', function () {
     return view('principal');
 })->name('principal');
+
+//PARA LOS GRAFICOS
+Route::get('/bar-chart', [ChartController::class, 'barChart']);
+
 
 Route::get('/register', [RegisterController::class, 'index'])->name('register');
 Route::post('/register', [RegisterController::class, 'store'])->name('register');

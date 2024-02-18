@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SaludPlus - @yield('titulo')</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
@@ -28,7 +30,7 @@
             </a>
             @auth
                 <nav class="flex gap-4 items-center">
-                    <a class="font-bold uppercase text-gray-600 text-sm " href="#">
+                    <a class="font-bold uppercase text-gray-600 text-sm" href="{{ route('admin.dashboard') }}">
                         Hola: <span class="font-normal">
                             {{ auth()->user()->name }}
                         </span>
@@ -43,12 +45,11 @@
                                 href="{{ route('admin.doctors') }}">
                                 Doctores
                             </a>
-{{-- 
+                            {{-- 
                             <a class="font-bold uppercase text-white bg-red-500 text-sm p-2 rounded-lg hover:bg-red-600"
                                 href="{{ route('admin.doctors') }}">
                                 Especialidades
                             </a> --}}
-
                         @endif
                     </a>
                     <form method="POST" action="{{ route('logout') }}">

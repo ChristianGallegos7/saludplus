@@ -7,18 +7,42 @@
 @section('contenido')
     <p class="font-bold text-center">Bienvenido al sistema de administración de SaludPlus: {{ auth()->user()->name }}</p>
 
-    <div class="mt-8">
-        <h2 class="text-xl font-semibold mb-4">Resumen</h2>
-
-        <div class="grid grid-cols-2 gap-4">
-            <div class="bg-gray-100 p-4 rounded-lg">
-                <h3 class="text-lg font-semibold">Citas Médicas</h3>
-                <p class="text-gray-600">Total: {{ $totalMedicalAppointments }}</p>
-            </div>
-            <div class="bg-gray-100 p-4 rounded-lg">
-                <h3 class="text-lg font-semibold">Doctores</h3>
-                <p class="text-gray-600">Total: {{ $totalDoctors }}</p>
-            </div>
+    <div class="mt-8 text-center">
+        <div class="chart-container mx-auto" style="position: relative; width: 500px; height: 300px;">
+            <canvas id="myChart"></canvas>
         </div>
     </div>
+
+
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Citas Médicas', 'Doctores'],
+                datasets: [{
+                    label: 'Cantidad',
+                    data: [{{ $totalMedicalAppointments }}, {{ $totalDoctors }}],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
 @endsection
