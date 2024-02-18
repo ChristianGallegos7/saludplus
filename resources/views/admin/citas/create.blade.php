@@ -43,9 +43,13 @@
                             class="w-full p-2 mt-1 border rounded-md focus:outline-none focus:ring focus:border-blue-300">
                             <option value="">Selecciona una especialidad</option>
                             @foreach ($specialties as $specialty)
-                                <option value="{{ $specialty->id }}">{{ $specialty->name }}</option>
+                                <option value="{{ $specialty->id }}"
+                                    {{ old('specialty') == $specialty->id ? 'selected' : '' }}>
+                                    {{ $specialty->name }}
+                                </option>
                             @endforeach
                         </select>
+
                         @error('specialty')
                             <p class="bg-red-600 text-white uppercase p-3 rounded-lg text-center mt-2 text-sm">
                                 {{ $message }}
@@ -88,7 +92,9 @@
                         <select id="doctor_id" name="doctor_id" required
                             class="w-full p-2 mt-1 border rounded-md focus:outline-none focus:ring focus:border-blue-300">
                             @foreach ($doctors as $doctor)
-                                <option value="{{ $doctor->id }}">{{ $doctor->nombre }} - {{ $doctor->specialty->name }}
+                                <option value="{{ $doctor->id }}"
+                                    {{ old('doctor_id') == $doctor->id ? 'selected' : '' }}>
+                                    {{ $doctor->nombre }} - {{ $doctor->specialty->name }}
                                 </option>
                             @endforeach
                         </select>
@@ -99,6 +105,7 @@
                             </p>
                         @enderror
                     </div>
+
 
                     <div class="mb-4">
                         <label for="additional_info" class="block text-sm font-semibold text-gray-600">Información
@@ -115,10 +122,10 @@
                     <div class="mb-4">
                         <label for="status" class="block text-sm font-semibold text-gray-600">Estado de la Cita:</label>
                         <select id="status" name="status" required
-                            class="w-full p-2 mt-1 border rounded-md focus:outline-none focus:ring focus:border-blue-300">
-                            <option value="available">Disponible</option>
-                            <option value="reserved">Reservada</option>
-                            <option value="completed">Completada</option>
+                                class="w-full p-2 mt-1 border rounded-md focus:outline-none focus:ring focus:border-blue-300">
+                            <option value="available" {{ old('status') == 'available' ? 'selected' : '' }}>Disponible</option>
+                            <option value="reserved" {{ old('status') == 'reserved' ? 'selected' : '' }}>Reservada</option>
+                            <option value="completed" {{ old('status') == 'completed' ? 'selected' : '' }}>Completada</option>
                         </select>
                         @error('status')
                             <p class="bg-red-600 text-white uppercase p-3 rounded-lg text-center mt-2 text-sm">

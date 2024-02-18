@@ -24,11 +24,11 @@
                     label: 'Cantidad',
                     data: [{{ $totalMedicalAppointments }}, {{ $totalDoctors }}],
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(0, 143, 57)',
                         'rgba(54, 162, 235, 0.2)'
                     ],
                     borderColor: [
-                        'rgba(255, 99, 132, 1)',
+                        'rgba(0, 143, 132, 1)',
                         'rgba(54, 162, 235, 1)'
                     ],
                     borderWidth: 1
