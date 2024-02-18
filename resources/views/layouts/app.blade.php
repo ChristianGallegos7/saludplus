@@ -43,6 +43,11 @@
                                 href="{{ route('admin.doctors') }}">
                                 Doctores
                             </a>
+{{-- 
+                            <a class="font-bold uppercase text-white bg-red-500 text-sm p-2 rounded-lg hover:bg-red-600"
+                                href="{{ route('admin.doctors') }}">
+                                Especialidades
+                            </a> --}}
 
                         @endif
                     </a>

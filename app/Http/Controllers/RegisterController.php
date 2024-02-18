@@ -52,7 +52,7 @@ class RegisterController extends Controller
         auth()->attempt($request->only('email', 'password'));
 
         //redireccionar al usuario
-        return redirect()->route('admin.dashboard');
+        return redirect()->route('patient.dashboard');
     }
 
     /**

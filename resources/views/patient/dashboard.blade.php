@@ -5,5 +5,5 @@
 @endsection
 
 @section('contenido')
-    <p>Bienvenido al sistema de SaludPlus: {{ auth()->user()->name }}</p>
+    <p class="font-bold text-2xl">Bienvenido al sistema de SaludPlus: <span class="text-green-600 uppercase">{{ auth()->user()->name }}</span></p>
 @endsection
