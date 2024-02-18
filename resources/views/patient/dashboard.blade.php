@@ -1,9 +1,13 @@
 @extends('layouts.app')
 
 @section('titulo')
-    Dashboard de Citas Médicas
+    Citas medicas disponibles✔
 @endsection
 
 @section('contenido')
-    <p class="font-bold text-2xl">Bienvenido al sistema de SaludPlus: <span class="text-green-600 uppercase">{{ auth()->user()->name }}</span></p>
+    <div>
+        <p class="font-bold text-2xl">Bienvenido al sistema de SaludPlus: <span
+                class="text-green-700 uppercase">{{ auth()->user()->name }}</span></p>
+
+    </div>
 @endsection

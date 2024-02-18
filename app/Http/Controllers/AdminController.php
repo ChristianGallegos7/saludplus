@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\MedicalAppointment;
+
+use App\Models\Doctor;
 
 use Illuminate\Http\Request;
 
@@ -11,7 +14,10 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view ('admin.dashboard');
+        $totalMedicalAppointments = MedicalAppointment::count();
+        $totalDoctors = Doctor::count();
+
+        return view('admin.dashboard', compact('totalMedicalAppointments', 'totalDoctors'));
     }
 
     /**
